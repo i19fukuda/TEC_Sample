@@ -1,0 +1,8 @@
+; ( G1 / 10 ) の商をG0に，あまりをG1に求めるサブルーチン
+DIV10   LD	G0,#0	;G0に#0を格納
+DILOOP    CMP	G1,#10	;G1 - #10
+        JC	DIEND	;Cフラグが1ならENDへジャンプ
+        SUB	G1,#10	;G1 - #10
+        ADD	G0,#1	;G0 = G0 + #1
+        JMP	DILOOP	;LOOPへジャンプ
+DIEND     RET

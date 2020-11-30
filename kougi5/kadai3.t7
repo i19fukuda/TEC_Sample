@@ -1,0 +1,35 @@
+	LD	SP,#0DCH	;スタックポインタの初期化
+        LD	G1,DATA	;G1にDATAを格納
+LOOP    CALL	DIV10	;DIV10を呼び出す呼び出す(スタックを利用)
+        PUSH	G0	;G0の退避
+        PUSH	G1	;G1の退避
+        POP	G0	;G0の復帰
+        ADD	G0,#30H	;G0 = G0 + #30H
+        CALL	PUTCH	;PUTCHを呼び出す呼び出す(スタックを利用)
+        POP	G0	;G0の復帰
+        CMP	G0,#0	;G0 - #0
+        JZ	END	;0ならばENDへジャンプ
+        PUSH	G0	;G0の退避
+        POP	G1	;G1の復帰
+        JMP	LOOP	;LOOPへジャンプ
+END     HALT
+DATA    DC	123	;データ[123]を定義する
+
+; ( G1 / 10 ) の商をG0に，あまりをG1に求めるサブルーチン
+DIV10   LD	G0,#0	;G0に#0を格納
+DILOOP    CMP	G1,#10	;G1 - #10
+        JC	DIEND	;Cフラグが1ならENDへジャンプ
+        SUB	G1,#10	;G1 - #10
+        ADD	G0,#1	;G0 = G0 + #1
+        JMP	DILOOP	;LOOPへジャンプ
+DIEND     RET
+
+PUTCH	PUSH	G1	;G1を退避
+        PUSHF
+PCWAIT	IN	G1,03H	;ステートメント入力
+        AND	G1,#80H	;ステートメント確認
+        JZ	PCWAIT	;出力可能になるまでループ
+        OUT	G0,02H	;出力
+        POPF
+        POP	G1
+        RET

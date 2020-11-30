@@ -1,0 +1,14 @@
+        LD	G1,X	;G1にXを格納
+        LD	G0,#0	;G0に#0を格納
+LOOP    CMP	G1,Y	;G1 - #10
+        JC	END	;Cフラグが1ならENDへジャンプ
+        SUB	G1,Y	;G1 - #0
+        ADD	G0,#1	;G0 = G0 + #1
+        JMP	LOOP	;LOOPへジャンプ
+END     ST	G0,Q	;G0をQに格納
+        ST	G1,R	;G1をRに格納
+        HALT
+X       DC	50	;データ[50]を定義する
+Y       DC	3	;データ[3]を定義する
+Q       DS	1	;1バイト分のデータ領域を確保する
+R       DS	1	;1バイト分のデータ領域を確保する

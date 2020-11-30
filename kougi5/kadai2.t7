@@ -1,0 +1,9 @@
+        LD	G1,X	;G1にXを格納
+        LD	G0,#0	;G0に#0を格納
+LOOP    CMP	G1,#10	;G1 - #10
+        JC	END	;Cフラグが1ならENDへジャンプ
+        SUB	G1,#10	;G1 - #10
+        ADD	G0,#1	;G0 = G0 + #1
+        JMP	LOOP	;LOOPへジャンプ
+END     HALT
+X       DC	50	;データ[50]を定義する
