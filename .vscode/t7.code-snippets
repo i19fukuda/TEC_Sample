@@ -192,4 +192,18 @@
 		],
 	},
 
+	"dib10":{
+		"prefix": "sub_div10",
+		"body": [
+			"; ( G1 / 10 ) の商をG0に，あまりをG1に求めるサブルーチン",
+			"DIV10\tLD\tG0,#0\tG0に#0を格納",
+			"DILOOP\tCMP\tG1,#10\t;G0に#10を格納",
+                        "\tJC\tDIEND\t;Cフラグが1ならENDへジャンプ",
+                        "\tSUB\tG1,#10\t;G1 - #10",
+                        "\tADD\tG0,#1\t;G0 = G0 + #1",
+                        "\tJMP\tDILOOP\t;LOOPへジャンプ",
+			"DIEND     RET",
+		]
+	},
+
 }
