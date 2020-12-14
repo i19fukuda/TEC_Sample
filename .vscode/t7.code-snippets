@@ -206,4 +206,24 @@
 		]
 	},
 
+	"PUTDECI2":{
+		"prefix": "sub_putDECI2",
+		"body": [
+			"PUTDECI2",
+			"\tCALL\tDIV10\t;DIV10を呼び出す呼び出す(スタックを利用)",
+			"\tADD\tG1,#30H\t;G1 = G1 + #30H",
+			"\tPUSH\tG1\t;G1の退避",
+			"\tPUSH\tG0\t;G0の退避",
+			"\tPOP\tG1\t;G1の復帰",
+			"\tCALL\tDIV10\t;DIV10を呼び出す呼び出す(スタックを利用)",
+			"\tADD\tG1,#30H\t;G1 = G1 + #30H",
+			"\tPUSH\tG1\t;G1の退避",
+			"\tPOP\tG0\t;G0の復帰",
+			"\tCALL\tPUTCH\t;PUTCHを呼び出す呼び出す(スタックを利用)",
+			"\tPOP\tG0\t;G0の復帰",
+			"\tCALL\tPUTCH\t;PUTCHを呼び出す呼び出す(スタックを利用)",
+			"\tRET",
+		]
+	}
+
 }
