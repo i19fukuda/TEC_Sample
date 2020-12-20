@@ -1,0 +1,47 @@
+;DATE番地に格納された年、月、日を表示するプログラム
+        LD	SP,#0DCH	;スタックポインタの初期化
+        LD	G1,#3	;G1に#3を格納
+        LD	G2,#DATE	;G2に#DATEを格納
+LOOP    PUSH	G1	;G1をスタックにpush
+        LD	G1,0,G2	;G1に0,G2を格納
+        CALL	PUTDECI2	;PUTDECI2を呼び出す呼び出す(スタックを利用)
+        LD	G0,#'/'	;G0に#'/'を格納
+        CALL	PUTCH	;PUTCHを呼び出す呼び出す(スタックを利用)
+        POP	G1	;G1をスタックからpop
+        ADD	G2,#1	;G2 = G2 + #1
+        SUB	G1,#1	;G1 - #1
+        JNZ	LOOP	;0でないのならばLOOPへジャンプ
+        HALT
+DATE    DC	19,11,1	;データ[19,11,1]を定義する
+
+PUTCH	PUSH	G1	;G1を退避
+        PUSHF
+PCWAIT	IN	G1,03H	;ステートメント入力
+        AND	G1,#80H	;ステートメント確認
+        JZ	PCWAIT	;出力可能になるまでループ
+        OUT	G0,02H	;出力
+        POPF
+        POP	G1
+        RET
+PUTDECI2
+        CALL	DIV10	;DIV10を呼び出す呼び出す(スタックを利用)
+        ADD	G1,#30H	;G1 = G1 + #30H
+        PUSH	G1	;G1の退避
+        PUSH	G0	;G0の退避
+        POP	G1	;G1の復帰
+        CALL	DIV10	;DIV10を呼び出す呼び出す(スタックを利用)
+        ADD	G1,#30H	;G1 = G1 + #30H
+        PUSH	G1	;G1の退避
+        POP	G0	;G0の復帰
+        CALL	PUTCH	;PUTCHを呼び出す呼び出す(スタックを利用)
+        POP	G0	;G0の復帰
+        CALL	PUTCH	;PUTCHを呼び出す呼び出す(スタックを利用)
+        RET
+; ( G1 / 10 ) の商をG0に，あまりをG1に求めるサブルーチン
+DIV10	LD	G0,#0	;G0に#0を格納
+DILOOP	CMP	G1,#10	;G0に#10を格納
+        JC	DIEND	;Cフラグが1ならENDへジャンプ
+        SUB	G1,#10	;G1 - #10
+        ADD	G0,#1	;G0 = G0 + #1
+        JMP	DILOOP	;LOOPへジャンプ
+DIEND     RET
