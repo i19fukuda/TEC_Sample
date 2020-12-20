@@ -136,24 +136,24 @@
 	"PUSH":{
 		"prefix": "PUSH",
 		"body": [
-			"PUSH\t$1\t;$1の退避",
-		],
-	},
-
-	"PUSHF":{
-		"prefix": "PUSHF",
-		"body": [
-			"PUSHF\t\t;フラグの退避",
+			"PUSH\t$1\t;$1をスタックにpush",
 		],
 	},
 
 	"POP":{
 		"prefix": "POP",
-		"body": "POP\t$1\t;$1の復帰",
+		"body": "POP\t$1\t;$1をスタックからpop",
 	},
+	"PUSHF":{
+		"prefix": "PUSHF",
+		"body": [
+			"PUSHF\t\t;フラグをスタックにpush",
+		],
+	},
+
 	"POPF":{
 		"prefix": "POPF",
-		"body": "POPF\t\t;フラグの復帰",
+		"body": "POPF\t\t;フラグをスタックからpop",
 	},
 
 	"CALL":{
